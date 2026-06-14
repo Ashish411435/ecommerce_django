@@ -52,7 +52,9 @@ $(document).ready(function() {
 	} // end if
 
 
-
+    setTimeout(() => {
+        $("#alert_message").fadeOut('slow')
+    }, 5000)
 
     
 }); 
