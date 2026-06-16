@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% load static %} 
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -7,44 +7,38 @@
   <!-- ============================ COMPONENT LOGIN   ================================= -->
   <div class="card mx-auto" style="max-width: 380px; margin-top: 60px">
 
-    
-    {% if request.GET.command == 'verification' %}
-      <div class="alert alert-info" role="alert">
-        Thank you for registering. We have sent you verification email to your email address [{{ request.GET.email }}].
-        <br><br>
-        Already verified? <a href="{% url 'login' %}">Login</a>
-      </div>
-    {% else %}
-      <div class="card-body">
-        {% include 'includes/alerts.html' %}
-        <h4 class="card-title mb-4">Sign in</h4>
-        <form action="{% url 'login' %}" method="POST">
-          {% csrf_token %}
-          <div class="form-group">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Email Address"
-              name="email"
-              required
-            />
-          </div>
-          <!-- form-group// -->
-          <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" name="password" required />
-          </div>
-          <!-- form-group// -->
 
-          <div class="form-group">
-            <a href="{% url 'forgotPassword' %}" class="float-right">Forgot password?</a>
-          </div>
-          <!-- form-group form-check .// -->
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-          </div>
-          <!-- form-group// -->
-        </form>
-      </div>
+    {% if request.GET.command == 'verification' %}
+    <div class="alert alert-info" role="alert">
+      Thank you for registering. We have sent you verification email to your email address [{{ request.GET.email }}].
+      <br><br>
+      Already verified? <a href="{% url 'login' %}">Login</a>
+    </div>
+    {% else %}
+    <div class="card-body">
+      {% include 'includes/alerts.html' %}
+      <h4 class="card-title mb-4">Sign in</h4>
+      <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="email" class="form-control" placeholder="Email Address" name="email" required />
+        </div>
+        <!-- form-group// -->
+        <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" name="password" required />
+        </div>
+        <!-- form-group// -->
+
+        <div class="form-group">
+          <a href="{% url 'forgotPassword' %}" class="float-right">Forgot password?</a>
+        </div>
+        <!-- form-group form-check .// -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </div>
+        <!-- form-group// -->
+      </form>
+    </div>
     {% endif %}
     <!-- card-body.// -->
   </div>

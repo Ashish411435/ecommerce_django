@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% load static %} 
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -8,18 +8,20 @@
   <div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
     <article class="card-body">
       {% include 'includes/alerts.html' %}
-      <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
+      <header class="mb-4">
+        <h4 class="card-title">Sign up</h4>
+      </header>
       {% if form.errors %}
-        <div class="errors mb-3">
-          {% for field in form %}
-            {% for error in field.errors %}
-                <small class="text-danger">{{ error }}</small><br>
-            {% endfor %}
-          {% endfor %}
-          {% for error in form.non_field_errors %}
-            <small class="text-danger">{{ error }}</small><br>
-          {% endfor %} 
-        </div>
+      <div class="errors mb-3">
+        {% for field in form %}
+        {% for error in field.errors %}
+        <small class="text-danger">{{ error }}</small><br>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <small class="text-danger">{{ error }}</small><br>
+        {% endfor %}
+      </div>
       {% endif %}
       <form action="{% url 'register' %}" method="POST">
         {% csrf_token %}
@@ -38,15 +40,15 @@
         <!-- form-row end.// -->
         <div class="form-row">
           <div class="col form-group">
-              <label for="id_phone_number">Phone Number</label>
-              {{ form.phone_number }}
+            <label for="id_phone_number">Phone Number</label>
+            {{ form.phone_number }}
           </div>
           <div class="col form-group">
-              <label for="id_email">Email</label>
-              {{ form.email }}
+            <label for="id_email">Email</label>
+            {{ form.email }}
           </div>
         </div>
-       
+
         <!-- form-group end.// -->
         <!-- form-row.// -->
         <div class="form-row">
