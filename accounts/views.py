@@ -61,8 +61,8 @@ def login(request):
         if user is not None:
             check_cart_item_exist(request, user)
             auth.login(request, user)
-            url = request.META.get("HTTP_REFERER")
 
+            url = request.META.get("HTTP_REFERER")
             if url:
                 query_params = parse_qs(urlparse(url).query)
                 print("Next Page ===========", query_params)

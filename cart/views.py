@@ -222,7 +222,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
             tax = (2 * total) / 100
             grand_total = total + tax
         else:
-            return redirect("dashboard")
+            return redirect("store")
     except ObjectDoesNotExist:
         pass
 

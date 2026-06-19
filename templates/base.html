@@ -11,31 +11,21 @@
   <title> {% block title %} {% endblock %} </title>
 
   <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon" />
-
-  <!-- jQuery -->
-  <script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
-
-  <!-- Bootstrap4 files-->
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
   <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" />
-
   <!-- Font awesome 5 -->
   <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet" />
 
   <!-- custom style -->
   <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
-
-  <!-- custom javascript -->
-  <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
-
-  <script type="text/javascript">
-    // jquery ready start
-    $(document).ready(function () {
-      // jQuery code
-    });
-    // jquery end
-  </script>
+  <style>
+    /* Media query for mobile viewport */
+    @media screen and (max-width: 400px) {
+      #paypal-button-container {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -50,6 +40,19 @@
   <!-- ========================= FOOTER ========================= -->
   {% include 'includes/footer.html' %}
   <!-- ========================= FOOTER END // ========================= -->
+
+  <!-- jQuery -->
+  <script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+  <!-- Bootstrap4 files-->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+  <!-- custom javascript -->
+  <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AfUlRH0oPkhKTFsHA4oMYlAhv78Tj72OO5beNXXnrgYXUZu9Oan9FJGTsbEl132Vm9mjGRNfQgoIuD7j&currency=USD&components=buttons"></script>
+
+  {% block script %}{% endblock script %}
+
 </body>
 
 </html>
