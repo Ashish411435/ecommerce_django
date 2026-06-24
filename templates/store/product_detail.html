@@ -33,7 +33,7 @@
                   <select name="color" class="form-control" required>
                     <option disabled selected>Choose Color</option>
                     {% for i in single_product.variation_set.colors %}
-                      <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -45,22 +45,21 @@
                   <select name="size" class="form-control" required>
                     <option disabled selected>Choose Size</option>
                     {% for i in single_product.variation_set.sizes %}
-                      <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                    <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                     {% endfor %}
                   </select>
                 </div>
               </div>
               <!-- row.// -->
               <hr />
-              
-              {% if single_product.stock <= 0 %}
-              <h5 class="text-danger">Out of Stock!</h5>
-              {% else %} 
+
+              {% if single_product.stock <= 0 %} <h5 class="text-danger">Out of Stock!</h5>
+                {% else %}
                 <button type="submit" class="btn btn-primary">
                   <span class="text">Add to cart</span>
                   <i class="fas fa-shopping-cart"></i>
                 </button>
-              {% endif %}
+                {% endif %}
             </article>
           </form>
           <!-- product-info-aside .// -->
@@ -76,31 +75,88 @@
 
     <div class="row">
       <div class="col-md-9">
-        <header class="section-heading">
-          <h3>Customer Reviews</h3>
-        </header>
 
-        <article class="box mb-3">
-          <div class="icontext w-100">
-            <img
-              src="./images/avatars/avatar1.jpg"
-              class="img-xs icon rounded-circle"
-            />
-            <div class="text">
-              <span class="date text-muted float-md-right">24.04.2020 </span>
-              <h6 class="mb-1">Mike John</h6>
+        {% include 'includes/alerts.html' %}
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'submit_review' single_product.id %}" method="POST">
+          {% csrf_token %}
+          {% endif %}
+          <h5>Write Your Review</h5>
+          <!-- Rating Stars -->
+          <p>How do you rate this product?</p>
+          <div class="rate">
+            <input type="radio" name="rating" id="rating10" value="5" required>
+            <label for="rating10" title="5"></label>
+            <input type="radio" name="rating" id="rating9" value="4.5" required>
+            <label for="rating9" title="4.5" class="half"></label>
+            <input type="radio" name="rating" id="rating8" value="4" required>
+            <label for="rating8" title="4"></label>
+            <input type="radio" name="rating" id="rating7" value="3.5" required>
+            <label for="rating7" title="3.5" class="half"></label>
+            <input type="radio" name="rating" id="rating6" value="3" required>
+            <label for="rating6" title="3"></label>
+            <input type="radio" name="rating" id="rating5" value="2.5" required>
+            <label for="rating5" title="2.5" class="half"></label>
+            <input type="radio" name="rating" id="rating4" value="2" required>
+            <label for="rating4" title="2"></label>
+            <input type="radio" name="rating" id="rating3" value="1.5" required>
+            <label for="rating3" title="1.5" class="half"></label>
+            <input type="radio" name="rating" id="rating2" value="1" required>
+            <label for="rating2" title="1"></label>
+            <input type="radio" name="rating" id="rating1" value="0.5" required>
+            <label for="rating1" title="0.5" class="half"></label>
+          </div>
+          <div class="mb-3">
+            <label for="review_title">Review Title:</label>
+            <input type="text" class="form-control" name="subject" required>
+          </div>
+          <div class="mb-3">
+            <label for="review_message">Review:</label>
+            <textarea class="form-control" name="review" rows="4" required> </textarea>
+          </div>
+
+          {% if user.is_authenticated %}
+          {% if order_product %}
+          <div>
+            <input type="submit" value="Submit Review" class="btn btn-primary">
+          </div>
+          {% else %}
+          <p class="text-danger">* You must purchase this product before you can write a review.</p>
+          {% endif %}
+          {% else %}
+          <p class="text-danger">* You must be logged in to post a review.</p>
+        </form>
+        {% endif %}
+
+        <div class="mt-5">
+          <header class="section-heading">
+            <h3>Customer Reviews</h3>
+          </header>
+
+          {% for review in reviews %}
+          <article class="box mt-2 mb-3">
+            <div class="icontext w-100 d-flex items-center">
+              <div class="text">
+                <span class="date text-muted float-md-right">{{ review.created_at }} </span>
+                <h6 class="mb-1">
+                  <i class="fa fa-user mr-1"></i>
+                  {{ review.user.full_name }}
+                  <span class="ml-3">
+                    <i class="fa fa-star text-warning"></i>
+                    {{ review.rating }}
+                  </span>
+                </h6>
+              </div>
             </div>
-          </div>
-          <!-- icontext.// -->
-          <div class="mt-3">
-            <p>
-              Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-              aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-              laboris nisi ut aliquip
-            </p>
-          </div>
-        </article>
+            <!-- icontext.// -->
+            <div class="mt-3">
+              <p><b>{{ review.subject|capfirst }}</b></p>
+              <p>{{ review.review }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
       </div>
       <!-- col.// -->
     </div>
