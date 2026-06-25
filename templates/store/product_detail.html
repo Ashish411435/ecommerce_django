@@ -8,10 +8,24 @@
         <aside class="col-md-6">
           <article class="gallery-wrap">
             <div class="img-big-wrap">
-              <a href="#"><img src="{{ single_product.image.url }}" /></a>
+              <center>
+                <img src="{{ single_product.image.url }}" class="product_main_img" />
+              </center>
             </div>
             <!-- img-big-wrap.// -->
           </article>
+          <ul class="thumb list-unstyled d-flex gap-2 mt-3">
+            <li class="ml-3">
+              <img src="{{ single_product.image.url }}" alt="Product Image" width="80" height="80"
+                class="border product_gallery_img cursor-pointer" />
+            </li>
+            {% for gallery_image in product_gallery %}
+            <li class="ml-3">
+              <img src="{{ gallery_image.image.url }}" alt="Product Image" width="80" height="80"
+                class="border product_gallery_img cursor-pointer">
+            </li>
+            {% endfor %}
+          </ul>
           <!-- gallery-wrap .end// -->
         </aside>
         <main class="col-md-6 border-left">
@@ -166,3 +180,16 @@
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 {% endblock content %}
+
+
+{% block script %}
+<script>
+  $(document).ready(function () {
+    $(".product_gallery_img").on("click", function () {
+      var this_src_link = $(this).attr('src')
+      $(".product_main_img").attr('src', this_src_link)
+    })
+  })
+</script>
+
+{% endblock script %}

@@ -44,7 +44,7 @@ class Order(models.Model):
     order_number = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=25)
     email = models.CharField(max_length=50)
     address_line_1 = models.CharField(max_length=50)
     address_line_2 = models.CharField(max_length=50, blank=True)

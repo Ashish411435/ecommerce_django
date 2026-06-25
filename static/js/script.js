@@ -57,6 +57,18 @@ $(document).ready(function () {
     }, 5000)
 
 
+    $("#id_profile_picture").on("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            $("#profile_preview").attr(
+                "src",
+                URL.createObjectURL(file)
+            );
+        }
+    })
+
+
 });
 // jquery end
 

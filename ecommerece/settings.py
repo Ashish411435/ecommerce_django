@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from ctypes import cast
 from pathlib import Path
 
 # Custom imports
 import os
 from django.contrib.messages import constants as messages
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-6!bfwyf&iphbhwp^al*^jn4q(!v9imh*h*(3o=9=sl4f7wt0&j"
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -83,13 +85,26 @@ WSGI_APPLICATION = "ecommerece.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+if config("DB_ENGINE") == "django.db.backends.sqlite3":
 
+    DATABASES = {
+        "default": {
+            "ENGINE": config("DB_ENGINE"),
+            "NAME": BASE_DIR / config("DB_NAME"),
+        }
+    }
+
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": config("DB_ENGINE"),
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "PORT": config("DB_PORT"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -140,18 +155,13 @@ MESSAGE_TAGS = {
 }
 
 # SMTP CONFIGURATION
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "ashishkamal1210@gmail.com"
-EMAIL_HOST_PASSWORD = "mivkacoimmxzmjek"
-EMAIL_USE_TLS = True
+EMAIL_HOST = config("EMAIL_HOST", default="localhost")
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
 
-PAYPAL_CLIENT_ID = (
-    "AfUlRH0oPkhKTFsHA4oMYlAhv78Tj72OO5beNXXnrgYXUZu9Oan9FJGTsbEl132Vm9mjGRNfQgoIuD7j"
-)
-
-PAYPAL_SECRET = (
-    "ELMOcQVfbTNvE7bQhIJagArOM6BF9IhPVVNF1cLwZKyOT1T98OfrYc9_d3bqVyiZGA_QSS93A61g207P"
-)
-
-PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com"
+# PAYMENT CONFIGURAION
+PAYPAL_CLIENT_ID = config("PAYPAL_CLIENT_ID")
+PAYPAL_SECRET = config("PAYPAL_SECRET")
+PAYPAL_BASE_URL = config("PAYPAL_BASE_URL")

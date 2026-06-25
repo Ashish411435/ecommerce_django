@@ -79,13 +79,24 @@
         <div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
           <div class="d-flex justify-content-end mb-3 mb-lg-0">
             <div class="widget-header">
-              <small class="title text-muted">Welcome {{ user.first_name|default:"Guest"|capfirst }}</small>
-
               {% if user.id is not None %}
-              <div>
-                <a href="{% url 'dashboard' %}">Dashboard</a>
-                <span class="dark-transp"> | </span>
-                <a href="{% url 'logout' %}"> Logout</a>
+              <div class="d-flex">
+                <div class="mr-2">
+                  <a href="{% url 'dashboard' %}">
+                    <img src="{{request.user.userprofile.profile_picture.url}}" alt="Profile Picture" width="50"
+                      height="50" class="rounded-circle profile_picture">
+                  </a>
+                </div>
+                <div>
+                  <div>
+                    <small class="title text-muted">Welcome {{ user.first_name|default:"Guest"|capfirst }}</small>
+                  </div>
+                  <div>
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                    <span class="dark-transp"> | </span>
+                    <a href="{% url 'logout' %}"> Logout</a>
+                  </div>
+                </div>
               </div>
               {% else %}
               <div>

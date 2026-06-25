@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 # Models
-from store.models import Product, ReviewRating
+from store.models import Product, ProductGallery, ReviewRating
 from category.models import Category
 from cart.models import CartItem
 from orders.models import OrderProduct
@@ -21,14 +21,14 @@ def store(request, category_slug=None):
         filter_categories = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(
             category=filter_categories, is_available=True
-        ).order_by("modified_date")
+        ).order_by("product_name")
         products_count = products.count()
         paginator = Paginator(products, 6)
         page = request.GET.get("page")
         paged_products = paginator.get_page(page)
     else:
         products = (
-            Product.objects.all().filter(is_available=True).order_by("modified_date")
+            Product.objects.all().filter(is_available=True).order_by("product_name")
         )
         products_count = products.count()
         paginator = Paginator(products, 6)
@@ -65,11 +65,14 @@ def product_detail(request, category_slug, product_slug):
 
     reviews = ReviewRating.objects.filter(product=single_product, status=True)
 
+    product_gallery = ProductGallery.objects.filter(product=single_product)
+
     context = {
         "single_product": single_product,
         "in_cart": in_cart,
         "order_product": order_product,
         "reviews": reviews,
+        "product_gallery": product_gallery,
     }
 
     return render(
